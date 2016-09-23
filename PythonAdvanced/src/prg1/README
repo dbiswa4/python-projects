@@ -1,0 +1,25 @@
+Dataset Name:
+Airplane Crashes Since 1908
+
+Dataset Source:
+https://www.kaggle.com/saurograndi/airplane-crashes-since-1908
+
+Dataset Description:
+Full history of airplane crashes throughout the world, from 1908-2009.
+Dataset has below columns:
+Date :
+Time :
+Location :
+Operator :
+Flight # :
+Route :
+Type :
+Registration :
+cn/In :
+Aboard :
+Fatalities :
+Ground :
+Summary :
+
+Data cleanup and data generation for charts:
+
