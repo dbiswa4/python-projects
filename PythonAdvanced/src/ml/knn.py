@@ -28,9 +28,13 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
         #print '\nActual : \n', actual
         #print '\nPredicted : \n', predicted
         unique, matrix = utils.confusion_matrix(actual, predicted)
+        print 'actual : \n', actual
+        print 'predicted : \n', predicted
         print '\nConfusion Matrix for fold #{0} is:'.format(fold_no)
         utils.print_confusion_matrix(unique, matrix)
         fold_no += 1
+
+    #utils.generate_results(predicted, actual)
 
     return scores
 
@@ -126,7 +130,11 @@ if __name__ == '__main__':
     random.seed(1)
     filename = sys.argv[1]
     print '\nFile Name is : ', filename
+
+    #Colums position follows zero base index
     cat_string_cols_pos = sys.argv[2]
     print '\ncat_string_cols_pos : ', cat_string_cols_pos
     main(filename, cat_string_cols_pos)
+
+
 

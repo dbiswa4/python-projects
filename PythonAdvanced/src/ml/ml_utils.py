@@ -1,6 +1,8 @@
 import math
 import csv
 import random
+from sklearn.metrics import roc_curve, auc
+import matplotlib.pyplot as plt
 
 
 '''
@@ -192,9 +194,63 @@ def confusion_matrix(actual, predicted):
         matrix[x][y] += 1
     return unique, matrix
 
-# pretty print a confusion matrix
+'''
+pretty print a confusion matrix
+'''
 def print_confusion_matrix(unique, matrix):
     print('(P)' + ' '.join(str(x) for x in unique))
     print('(A)---')
     for i, x in enumerate(unique):
         print("%s| %s" % (x, ' '.join(str(x) for x in matrix[i])))
+
+'''
+Generate ROC Curve
+'''
+def roc(actual, predicted):
+    #print 'actual : ', actual
+    #print 'predicted : ', predicted
+    unique = set(actual)
+    matrix = [list() for x in range(len(unique))]
+    for i in range(len(unique)):
+        matrix[i] = [0 for x in range(len(unique))]
+    lookup = dict()
+    #(1,2)
+    #lookup[1]=0
+    #lookup[2]=1
+    for i, value in enumerate(unique):
+        lookup[value] = i
+        #lookup[i] = value
+    #print 'lookup : ', lookup
+
+    #(1,1,0,1,0,1)
+    #len=6
+    #First iteration : x = lookup[actual[1]]
+    #First iteration : x = lookup[actual[2]]
+    #       1  2
+    #   1
+    #   2
+
+    for i in range(len(actual)):
+        x = lookup[actual[i]]
+        #print 'x : ', str(x)
+        y = lookup[predicted[i]]
+        matrix[x][y] += 1
+    return unique, matrix
+
+def generate_results(y_test, y_score):
+    fpr, tpr, _ = roc_curve(y_test, y_score)
+    roc_auc = auc(fpr, tpr)
+    plt.figure()
+    plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlim([0.0, 1.05])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic curve')
+    plt.show()
+    print('AUC: %f' % roc_auc)
+
+
+
+
