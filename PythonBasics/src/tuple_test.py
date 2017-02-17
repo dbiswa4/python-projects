@@ -3,6 +3,7 @@ def TupleTest():
     A tuple is a sequence of immutable Python objects.
     The differences between tuples and lists are, the tuples cannot be 
     changed unlike lists and tuples use parentheses, whereas lists use square brackets.
+    To create a tuple various values are put inside parentheses and they all are separated by a comma
     '''
     tup = ()
     tup1 = ('physics', 'chemistry', 1997, 2000)
