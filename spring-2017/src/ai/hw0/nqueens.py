@@ -139,6 +139,7 @@ def solve(initial_board):
             #print 'Current successor board : ', s
             if is_goal(s):
                 return(s)
+                #print (printable_board(s) if s else "Sorry, no solution found. :(")
             #print 'Current successor not a goal board, hence add to the fringe'
             fringe.append(s)
     return False
@@ -152,7 +153,11 @@ N = int(sys.argv[1])
 # A zero in a given square indicates no piece, and a 1 indicates a piece.
 initial_board = [[0]*N]*N
 print ("Starting from initial board:\n" + printable_board(initial_board) + "\n\nLooking for solution...\n")
+
+#Trying to find all possible solutions
 solution = solve(initial_board)
 print (printable_board(solution) if solution else "Sorry, no solution found. :(")
+#solve(initial_board)
+print "Reached end of the program"
 
 

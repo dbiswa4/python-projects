@@ -149,7 +149,7 @@ def solve(initial_board, total_pieces, eval_dia_danger_flag=0):
         #for s in successors3(fringe.pop()):
         #for s in successors3(fringe.pop(0)):
         #for s in successors4(fringe.pop()):
-        for s in successors5(fringe.pop(0), total_pieces, eval_dia_danger_flag):
+        for s in successors5(fringe.pop(), total_pieces, eval_dia_danger_flag):
             print 'Current successor board : ', s
             if is_goal(s, total_pieces):
                 return(s)
