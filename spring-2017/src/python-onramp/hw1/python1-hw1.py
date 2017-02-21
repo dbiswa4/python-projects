@@ -2,6 +2,8 @@
 #Given a list like myList=[1,2,3,4]  your task is to find sum of each number with another number i.e. 1+2,1+3,1+4,2+3,2+4,3+4 .
 # Write two codes, one using list comprehension and other using for loop.
 
+print '\n******Q1....'
+
 myList=[1,2,3,4]
 print 'myList : ', myList
 
@@ -21,3 +23,12 @@ print 'outList : using Loop\n', outList
 print 'outList : List Comphrehension'
 #print [int(myList[i]) + int(myList[x]) for x in range(i+1, myList.__len__()) for i in range(0,myList.__len__() - 1) ]
 print [int(myList[i]) + int(myList[x]) for i in range(0,myList.__len__() - 1) for x in range(i+1, myList.__len__()) ]
+
+
+
+#Q2.
+#2.Given a list write a code to detect if there is a duplicate element present in the list or not. Print yes or no.
+# Write two codes, one using '==' operator and other using exclusive or operator '^'.
+
+print '\n******Q2....'
+myList=[1,2,3,4,4]
