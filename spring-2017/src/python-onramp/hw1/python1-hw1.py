@@ -84,9 +84,6 @@ myMatrix = [[1, 2, 3, 4],
             [8, 9, 10]]
 
 print 'myMatrix : ', myMatrix
-#new_list = [str(x) for x in my_list if (x % 2) == 0]
-#odds = [myMatrix[i][j] for i in range(0,myMatrix.__len__() - 1) for x in range(j, myMatrix.__len__()) if (myMatrix[i][j] %2 ) == 0 ]
-#odds = [myMatrix[i][j] for i in range(0,myMatrix.__len__() - 1) for j in range(0, myMatrix[i])]
 
 odds = []
 for row in myMatrix:
@@ -205,3 +202,8 @@ myMatrix2 = [[3, 1, 1, 4],
 result = [[myMatrix1[i][j] + myMatrix2[i][j]  for j in range(len(myMatrix1[0]))] for i in range(len(myMatrix1))]
 
 print 'Resulted Matrix : \n', result
+
+
+print '*****End of Script*****'
+
+######End of Script#######
