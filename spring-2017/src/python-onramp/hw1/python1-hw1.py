@@ -204,6 +204,6 @@ result = [[myMatrix1[i][j] + myMatrix2[i][j]  for j in range(len(myMatrix1[0]))]
 print 'Resulted Matrix : \n', result
 
 
-print '*****End of Script*****'
+print '\n\n*****End of Script*****'
 
 ######End of Script#######
