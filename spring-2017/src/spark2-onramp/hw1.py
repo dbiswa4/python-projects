@@ -125,6 +125,14 @@ print 'Root mean square error = ' + str(RMSE)
 
 ###Part 6
 #Visualize predicted vs actual using a scatter plot.
-pdDF = predictions_actuals.toPandas()
-plt.scatter(pdDF.prediction, pdDF.label)
+actual = np.asarray(predictions_actuals.select('label').collect())
+predicted = np.asarray(predictions_actuals.select('prediction').collect())
+print actual
+print predicted
+
+plt.scatter(predicted, actual, alpha=0.5)
+plt.title('Year : Predicted vs Actual')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
 
