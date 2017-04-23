@@ -1,10 +1,12 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
 import re
-from pyspark.ml.feature import HashingTF, IDF
+from pyspark.ml.feature import HashingTF as MLHashingTF
+from pyspark.ml.feature import IDF as MLIDF
 from pyspark.sql.types import *
 from pyspark.mllib.linalg import (Vector, Vectors, DenseVector, SparseVector, _convert_to_vector)
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, MapType, FloatType, DoubleType
+from pyspark.sql.functions import udf
 import math
 
 spark = SparkSession.builder.config("spark.sql.warehouse.dir", "spark-workspace").appName("DS OnRamp Spark 2 - hw3").getOrCreate()
@@ -35,7 +37,7 @@ def make_data_kv2(line):
 google_kv2 = google_data_no_hdr.map(make_data_kv2)
 print '\nGoogle kv:', google_kv2.take(3)
 
-amazon_kv2 = google_data_no_hdr.map(make_data_kv2)
+amazon_kv2 = amazon_data_no_hdr.map(make_data_kv2)
 print '\nAmazon kv:', amazon_kv2.take(3)
 
 x = google_kv2.reduceByKey(lambda a, b: a + b)
@@ -64,7 +66,7 @@ print '\nAmazon mapValues()', amazon_clean.take(3)
 
 #Part 3
 #Write a function that takes a list of tokens and returns a dictionary mapping tokens to weights.
-#Q. What is definition of 'weights'?
+#Note: You can use MLLIB for TF and IDF functions
 
 
 

@@ -52,7 +52,6 @@ scaler = MinMaxScaler(inputCol="features", outputCol="scaled_features")
 
 # Compute summary statistics and generate MinMaxScalerModel for 40 samples
 scaler_model = scaler.fit(msd_labeled_df.limit(40))
-#scaler_model = scaler.fit(msd_labeled_df)
 
 # rescale each feature to range [min, max].
 scaled_data = scaler_model.transform(msd_labeled_df)
@@ -60,7 +59,26 @@ print("Features scaled to range: [%f, %f]" % (scaler.getMin(), scaler.getMax()))
 scaled_data.select("features", "scaled_features").show(2)
 scaled_data.show(1, False)
 
-#ToDo : Select any two features and plot heat map
+'''
++-----+--------------------+--------------------+-------------+
+|label|            features|     scaled_features|shifted_label|
++-----+--------------------+--------------------+-------------+
+| 2001|[49.94357,21.4711...|[0.88392250975394...|         71.0|
+| 2001|[48.73215,18.4293...|[0.84933705162266...|         71.0|
+| 2001|[50.95714,31.8560...|[0.91285944557976...|         71.0|
+| 2001|[48.2475,-1.89837...|[0.83550052730961...|         71.0|
+| 2001|[50.9702,42.20998...|[0.91323230229600...|         71.0|
+'''
+
+#Select any two features and plot heat map
+f1 = np.asarray(msd_labeled_df.rdd.map(lambda r: (float(r.features[1]), float(r.features[1]))).take(40))
+plt.imshow(f1, cmap='gray')
+plt.show()
+
+f2 = np.asarray(scaled_data.rdd.map(lambda r: (float(r.features[1]), float(r.features[1]))).take(40))
+plt.imshow(f2, cmap='gray')
+plt.show()
+
 
 ###Part 4
 #In learning problem, its natural to shift labels if its not starting from zero. Find out the range of prediction year and shift labels if necessary so that lowest one starts from zero.
