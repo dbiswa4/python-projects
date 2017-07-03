@@ -4,6 +4,8 @@ import math
 from pyspark.ml.linalg import Vectors
 from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+from pyspark.ml.classification import DecisionTreeClassifier
+from pyspark.ml.classification import NaiveBayes, NaiveBayesModel
 
 spark = SparkSession.builder.config("spark.sql.warehouse.dir", "spark-workspace").appName("DS on-ramp spark 2 : hw4").getOrCreate()
 sparkContext = spark.sparkContext
@@ -13,12 +15,12 @@ def transform_data(line):
     fields = line.split(',')
     if fields[0] == "" or fields[0] is None or fields[0] == "ID":
         return
-    avg_payment_delay = (float(fields[6]) + \
-                         float(fields[7]) + \
-                         float(fields[8]) + \
-                         float(fields[9]) + \
-                         float(fields[10]) + \
-                         float(fields[11])) / 6.0
+    avg_payment_delay = round((abs(float(fields[6])) + \
+                               abs(float(fields[7])) + \
+                               abs(float(fields[8])) + \
+                               abs(float(fields[9])) + \
+                               abs(float(fields[10])) + \
+                               abs(float(fields[11]))) / 6.0)
     avg_bill = (float(fields[12]) + \
                 float(fields[13]) + \
                 float(fields[14]) + \
@@ -78,4 +80,33 @@ print 'Random Forest accuracy : ', evaluator.evaluate(predictions)
 |1.0  |[1.0,1.0,1.0,34.0,1.3333333333333333,103421.66666666667,3367.1666666666665]  |1.0       |
 |1.0  |[1.0,1.0,1.0,34.0,1.6666666666666667,115795.66666666667,5100.0]              |1.0       |
 |1.0  |[1.0,1.0,1.0,35.0,-1.6666666666666667,575.6666666666666,0.0]                 |0.0       |
+Random Forest accuracy :  0.807145257028
+'''
+
+#Decision Trees model
+dt = DecisionTreeClassifier(labelCol="label", featuresCol="features")
+dt_model = dt.fit(training_data)
+#Predict on the test data
+predictions = dt_model.transform(test_data)
+result = predictions.select("label", "features", "prediction")
+result.where('label = 1.0').show(20, False)
+result.where('label = 0.0').show(20, False)
+print 'Dicision Tree accuracy : ',evaluator.evaluate(predictions)
+
+'''
+Dicision Tree accuracy :  0.805577332288
+'''
+
+#Naive Bayes model
+nb = NaiveBayes(labelCol="label", featuresCol="features")
+nb_model = nb.fit(training_data)
+#Predict on the test data
+predictions = nb_model.transform(test_data)
+result = predictions.select("label", "features", "prediction")
+result.where('label = 1.0').show(20, False)
+result.where('label = 0.0').show(20, False)
+print 'Naive Bayes accuracy : ',evaluator.evaluate(predictions)
+
+'''
+Naive Bayes accuracy :  0.545212470875
 '''
