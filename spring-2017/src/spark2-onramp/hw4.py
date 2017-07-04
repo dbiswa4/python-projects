@@ -80,7 +80,6 @@ print 'Random Forest accuracy : ', evaluator.evaluate(predictions)
 |1.0  |[1.0,1.0,1.0,34.0,1.3333333333333333,103421.66666666667,3367.1666666666665]  |1.0       |
 |1.0  |[1.0,1.0,1.0,34.0,1.6666666666666667,115795.66666666667,5100.0]              |1.0       |
 |1.0  |[1.0,1.0,1.0,35.0,-1.6666666666666667,575.6666666666666,0.0]                 |0.0       |
-
 Random Forest accuracy :  0.807145257028
 '''
 
@@ -111,6 +110,3 @@ print 'Naive Bayes accuracy : ',evaluator.evaluate(predictions)
 '''
 Naive Bayes accuracy :  0.545212470875
 '''
-
-
-
