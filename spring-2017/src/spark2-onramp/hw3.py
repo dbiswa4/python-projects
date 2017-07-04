@@ -72,17 +72,6 @@ print 'Corpus : \n', corpus.take(5)
 #Write a function that takes a list of tokens and returns a dictionary mapping tokens to term frequency.
 #Note: You can use MLLIB for TF and IDF functions
 
-#Part3-Sol1
-#It gives term count, not frequency
-def tf(tokens):
-    return Counter(tokens)
-
-tokens_tf = corpus.map(lambda x: tf(x[1]))
-tokens_tf_map = corpus.mapValues(lambda x: tf(x))
-print 'Part3-Sol1:'
-print 'Token and Term Frequency : ', tokens_tf.take(5)
-print 'Token and Term Frequency (mapping with doc id retained) : ', tokens_tf_map.take(5)
-
 #Part3-Sol2
 #Gives right result
 def transform(document):

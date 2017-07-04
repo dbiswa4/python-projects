@@ -63,12 +63,6 @@ print 'Prediction#3 : ', get_actual_and_prediction(weights, lp)
 #trainData (RDD of LabeledPoint): The labeled data for use in training the model.
 #numIters (int): The number of iterations of gradient descent to perform.
 
-def get_rmse_old(actual_prediction):
-    mse = actual_prediction.map(lambda (v, p): (v - p)**2).reduce(lambda x, y: x + y) / actual_prediction.count()
-    rmse = np.sqrt(mse)
-    return rmse
-
-
 def get_rmse(actual_prediction):
     return np.sqrt(actual_prediction.map(lambda t: (t[0] - t[1]) ** 2).mean())
 
@@ -77,10 +71,13 @@ def get_rmse(actual_prediction):
 #num_iters (int)
 def gradient_descent(train_data, num_iters):
     n = train_data.count()
+    print 'train_data.take(1)[0] : ', train_data.take(1)[0]
+    print 'train_data.take(1)[0].features : ', train_data.take(1)[0].features
     features_count = len(train_data.take(1)[0].features)
+    print 'features_count : ', features_count
     theta = np.zeros(features_count)
     learn_rate = 1.0
-    train_error = np.zeros(num_iters)
+    train_error = [0] * num_iters
     for i in range(num_iters):
         train_label_and_pred = train_data.map(lambda lp: get_actual_and_prediction(theta, lp))
         train_error[i] = get_rmse(train_label_and_pred)
@@ -91,18 +88,22 @@ def gradient_descent(train_data, num_iters):
     return theta, train_error
 
 
-test_lp_rdd = sc.parallelize([LabeledPoint(9.0, np.array([0.2, 0.1,0.4])),LabeledPoint(5.0, np.array([0.3, 0.2,0.1])), LabeledPoint(8.0, np.array([0.3, 0.2,0.6]))])
+test_lp_rdd = sc.parallelize([LabeledPoint(0.9, np.array([0.2, 0.1,0.4])),LabeledPoint(0.5, np.array([0.3, 0.2,0.1])), LabeledPoint(0.7, np.array([0.3, 0.2,0.6])), LabeledPoint(0.8, np.array([0.3, 0.2,0.6]))])
 
 #Test Gradient Descent
-new_weigths, new_train_error = gradient_descent(test_lp_rdd, 10)
+new_weigths, new_train_error = gradient_descent(test_lp_rdd, 50)
 print 'new_weigths : ', new_weigths
 gd_actual_and_pred = test_lp_rdd.map(lambda lp: get_actual_and_prediction(new_weigths, lp))
 test_rmse = get_rmse(gd_actual_and_pred)
-test_rmse_old = get_rmse_old(gd_actual_and_pred)
 print 'Actual and Prediction by Gradient Descent : ', gd_actual_and_pred.collect()
-print 'Test rmse     : ', test_rmse
-print 'Test rmse old : ', test_rmse_old
+print 'Sample Test rmse     : ', test_rmse
 
+#Output
+#learn_rate = 1.0
+#Sample Test rmse     :  0.199968420308
+#learn_rate = 0.5
+#Test rmse     :
+#Sample Test rmse     :  0.220144043916
 
 
 
@@ -120,14 +121,20 @@ labels = msd_labeled.map(lambda x : x.label)
 features = msd_labeled.map(lambda x: x.features)
 min_label = labels.min()
 scaled_label_msd = msd_labeled.map(lambda lp: LabeledPoint(lp.label - min_label, lp.features))
-#Normalize the features
-normalizer = Normalizer()
-normalized_msd = labels.zip(normalizer.transform(features))
-normalized_lp_msd = normalized_msd.map(lambda lp: LabeledPoint(lp[0],lp[1]))
+scaled_labels = scaled_label_msd.map(lambda x: x.label)
+scaled_min_label = scaled_labels.min()
+norm = Normalizer()
+normalized_msd = scaled_labels.zip(norm.transform(features))
+normalized_lp_msd = normalized_msd.map(lambda x: LabeledPoint(x[0], x[1]))
 
-print 'Min label              : ', min_label
-print 'Data with scaled label : ', scaled_label_msd.take(2)
-print 'Normalized data        : ', normalized_lp_msd.take(2)
+print 'Min label                 : ', min_label
+print 'Scaled Min label          : ', scaled_min_label
+print 'Data with scaled label    : ', scaled_label_msd.take(2)
+print 'Data with scaled features : ', normalized_msd.take(2)
+print 'Normalized data           : ', normalized_lp_msd.take(2)
+
+#Output
+#Min label                 :  1930.0
 
 #Split the dataset
 train_data, validation_data, test_data = normalized_lp_msd.randomSplit([.7, .2, .1], 50)
@@ -145,14 +152,13 @@ print 'Validation rmse : ', val_rmse
 ###Q.5
 #Visualize the log of the training error as a function of iteration. The scatter plot visualizes the logarithm of the
 #training error for all 50 iterations.
-'''
-normalize = Normalize()
-cmap = get_cmap('YlOrRd')
-clrs = cmap(np.asarray(normalize(np.log(train_rmse))))[:, 0:3]
-fig, ax = plt.subplots()
-plt.scatter(range(0, 50), np.log(train_rmse), s=14 ** 2, c=clrs, edgecolors='#888888', alpha=0.75)
-ax.set_xlabel('Iteration'), ax.set_ylabel(r'$\log_e(train_rmse)$')
-'''
+
+plt.scatter(range(0, 50), np.log(train_error), alpha=0.5)
+plt.title('Iteration and Training Error')
+plt.xlabel('Iteration')
+plt.ylabel('Training Error')
+plt.show()
+
 
 ###Q.6
 #Use this model for prediction on test data. Calculate Root Mean Square Error of our model.
@@ -161,8 +167,19 @@ test_actual_and_pred = test_data.map(lambda lp: get_actual_and_prediction(train_
 test_rmse = get_rmse(test_actual_and_pred)
 print 'Test rmse : ', test_rmse
 
+'''
+With learn_rate = 1.0
+Training rmse   :  13.5765998113
+Validation rmse :  14.0917030378
+Test rmse :  12.4618219227
 
+With learn_rate = 0.5
+Training rmse   :  13.6903332718
+Validation rmse :  14.1841443527
+Test rmse :  12.6113911096
+'''
 
+##################End of Script#####################
 
 
 
