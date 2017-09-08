@@ -9,7 +9,7 @@ from collections import OrderedDict
 Args: Bubblesort observations file, Insertion sort observations file
 Valid Values :
 Sample execution:
-python plot-sort-results.py bubble-points.txt insertion-points.txt
+python plot-sort-results.py bubble-points.txt insertion-points.txt plot1
 '''
 
 def read_file(file_name):
@@ -67,7 +67,7 @@ def plot_bar_charts(bubble_points_dict, insertion_points_dict):
     plt.savefig('sort-time.png')
 
 
-def plot_line_charts(bubble_points_dict, insertion_points_dict):
+def plot_line_charts(bubble_points_dict, insertion_points_dict, plotname="plot1"):
     print("In plot_bar_charts() method")
 
     # data to plot
@@ -83,12 +83,13 @@ def plot_line_charts(bubble_points_dict, insertion_points_dict):
     plt.plot(seed_counts, bubble_values)
     plt.plot(seed_counts, insertion_values)
 
-    plt.xlabel('Seed Count in Thousand')
+    plt.xlabel('Number of Elements')
     plt.ylabel('Execution Time in ms')
     plt.title('Bubble Sort Vs Insertion Sort')
     plt.legend(['bubble', 'insertion'], loc='upper left')
 
-    plt.show()
+    #plt.show()
+    plt.savefig(plotname + '.png')
 
 
 if __name__ == '__main__':
@@ -96,6 +97,7 @@ if __name__ == '__main__':
 
     bubble_points_file = sys.argv[1]
     insertion_points_file = sys.argv[2]
+    plotname = sys.argv[3]
 
     bubble_points_dict = read_file(bubble_points_file)
     insertion_points_dict = read_file(insertion_points_file)
@@ -110,8 +112,8 @@ if __name__ == '__main__':
         print("Observations counts in two dataset DOES NOT match. Will not plot")
     else:
         print("Observations counts in two dataset match. Will plot")
-        plot_bar_charts(bubble_points_dict, insertion_points_dict)
-        plot_line_charts(bubble_points_dict, insertion_points_dict)
+        #plot_bar_charts(bubble_points_dict, insertion_points_dict)
+        plot_line_charts(bubble_points_dict, insertion_points_dict, plotname)
 
     print("End of program.")
 
