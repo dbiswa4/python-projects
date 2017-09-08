@@ -61,7 +61,10 @@ def plot_bar_charts(bubble_points_dict, insertion_points_dict):
     plt.legend()
 
     #plt.tight_layout()
-    plt.show()
+
+    #You can either show it or save it. Can't do bot at same time using exact same code.
+    #plt.show()
+    plt.savefig('sort-time.png')
 
 
 if __name__ == '__main__':
