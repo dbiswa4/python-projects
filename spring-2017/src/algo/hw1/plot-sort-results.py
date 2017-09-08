@@ -67,6 +67,30 @@ def plot_bar_charts(bubble_points_dict, insertion_points_dict):
     plt.savefig('sort-time.png')
 
 
+def plot_line_charts(bubble_points_dict, insertion_points_dict):
+    print("In plot_bar_charts() method")
+
+    # data to plot
+    n_groups = len(bubble_points_dict)
+    bubble_values = tuple(bubble_points_dict.values())
+    insertion_values = tuple(insertion_points_dict.values())
+
+    seed_counts = tuple(insertion_points_dict.keys())
+    print seed_counts
+
+    plt.gca().set_color_cycle(['red', 'green'])
+
+    plt.plot(seed_counts, bubble_values)
+    plt.plot(seed_counts, insertion_values)
+
+    plt.xlabel('Seed Count in Thousand')
+    plt.ylabel('Execution Time in ms')
+    plt.title('Bubble Sort Vs Insertion Sort')
+    plt.legend(['bubble', 'insertion'], loc='upper left')
+
+    plt.show()
+
+
 if __name__ == '__main__':
     print("Plot time taken to sort an array of different sizes")
 
@@ -87,6 +111,7 @@ if __name__ == '__main__':
     else:
         print("Observations counts in two dataset match. Will plot")
         plot_bar_charts(bubble_points_dict, insertion_points_dict)
+        plot_line_charts(bubble_points_dict, insertion_points_dict)
 
     print("End of program.")
 
