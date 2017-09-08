@@ -26,9 +26,22 @@ def plot1_file(n=2000):
 def plot2_file(n=2000):
     print("Generate Input for Plot2")
 
+    file_name = "plot2-" + str(n) + ".txt"
+    with open(file_name, 'w+') as f:
+        for i in range(1, n + 1):
+            f.write("%s\n" % i)
+
+    f.close()
 
 def plot3_file(n=2000):
     print("Generate Input for Plot3")
+
+    file_name = "plot3-" + str(n) + ".txt"
+    with open(file_name, 'w+') as f:
+        for i in range(n, 0,-1):
+            f.write("%s\n" % i)
+
+    f.close()
 
 if __name__ == '__main__':
     print("Generate Input")
