@@ -32,6 +32,7 @@ def plot2_file(n=2000):
             f.write("%s\n" % i)
 
     f.close()
+    print("Done generating file")
 
 def plot3_file(n=2000):
     print("Generate Input for Plot3")
@@ -42,6 +43,7 @@ def plot3_file(n=2000):
             f.write("%s\n" % i)
 
     f.close()
+    print("Done generating file")
 
 if __name__ == '__main__':
     print("Generate Input")
