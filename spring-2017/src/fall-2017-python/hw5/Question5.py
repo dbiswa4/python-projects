@@ -22,5 +22,6 @@ if __name__ == '__main__':
             digitCount = countDigits(this_line)
             print("There are " + str(digitCount) + " digits in line " + str(line_count))
         line_count += 1
+    f.close()
 
 
