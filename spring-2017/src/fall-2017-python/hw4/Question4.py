@@ -19,12 +19,11 @@ def sumList(nums):
 
 
 #Coneverts to list of float numbers
-def toNumbers(strList):
-    temp_list=[]
-    for i in strList:
-        temp_list.append(float(i))
-    return temp_list
 
+def toNumbers(strList):
+    for i in range(0, len(strList)):
+        temp = strList[i]
+        strList[i] = float(temp)
 
 
 def main():
@@ -36,17 +35,16 @@ def main():
     for line in iter(f):
         this_line = line.rstrip('\n')
         if len(this_line) != 0:
-            temp = this_line.split()
-            #print(temp)
-            nums = toNumbers(temp)
-            #print(nums)
-            squares = squareEach(nums)
+            strList = this_line.split()
+            #print(strList)
+            toNumbers(strList)
+            #print(strList)
+            squares = squareEach(strList)
             result = sumList(squares)
             print("Sum of squares in line", count, "is", result)
         count += 1
 
     f.close()
-
 
 
 if __name__ == '__main__':
