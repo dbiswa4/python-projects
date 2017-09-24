@@ -1,24 +1,29 @@
 #!/usr/bin/env python3
 
 #Question 4
+
+#Find Squares and add it to new list
 def squareEach(nums):
     temp_list = []
     for i in nums:
-        temp_list.append(float(i)*float(i))
+        temp_list.append(i*i)
+    return temp_list
 
 
+#Sum list of floating point numbers
 def sumList(nums):
     temp = 0.0
     for i in nums:
-        temp += float(i)
+        temp += i
     return temp
 
 
-
+#Coneverts to list of float numbers
 def toNumbers(strList):
     temp_list=[]
     for i in strList:
         temp_list.append(float(i))
+    return temp_list
 
 
 
@@ -32,10 +37,11 @@ def main():
         this_line = line.rstrip('\n')
         if len(this_line) != 0:
             temp = this_line.split()
-            print(temp)
-            toNumbers(temp)
-            squareEach(temp)
-            result = sumList(temp)
+            #print(temp)
+            nums = toNumbers(temp)
+            #print(nums)
+            squares = squareEach(nums)
+            result = sumList(squares)
             print("Sum of squares in line", count, "is", result)
         count += 1
 
