@@ -4,10 +4,9 @@
 
 #Find Squares and add it to new list
 def squareEach(nums):
-    temp_list = []
-    for i in nums:
-        temp_list.append(i*i)
-    return temp_list
+    for i in range(0, len(nums)):
+        temp = nums[i]
+        nums[i] = temp*temp
 
 
 #Sum list of floating point numbers
@@ -19,7 +18,6 @@ def sumList(nums):
 
 
 #Coneverts to list of float numbers
-
 def toNumbers(strList):
     for i in range(0, len(strList)):
         temp = strList[i]
@@ -39,8 +37,9 @@ def main():
             #print(strList)
             toNumbers(strList)
             #print(strList)
-            squares = squareEach(strList)
-            result = sumList(squares)
+            squareEach(strList)
+            #print(strList)
+            result = sumList(strList)
             print("Sum of squares in line", count, "is", result)
         count += 1
 
