@@ -9,3 +9,33 @@ if __name__ == "__main__":
     div = 556 / (1024 * 1024)
     
     print div
+
+    num = 10
+
+    print num/2
+    print num%2
+
+    num = 7
+
+    print num/2
+    print num%2
+
+    listone = [1, 2, 3]
+    listtwo = [4, 5, 6]
+    mergedlist = []
+    mergedlist.extend(listone)
+    mergedlist.extend(listtwo)
+    print mergedlist
+
+    mergedlist = []
+    mergedlist += listone
+    mergedlist += listtwo
+    print mergedlist
+
+
+    mergedlist = []
+    mergedlist.append(listone)
+    mergedlist.append(listtwo)
+    print mergedlist
+
+
